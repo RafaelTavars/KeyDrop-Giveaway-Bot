@@ -1,5 +1,13 @@
 # KeyDrop Giveaway Bot
 
+Fork of Awesome bot made by mrFavoslav and Sajpro
+
+with some changes and adds a minimum amount to participate in the giveaway.
+
+# **WARNING: Contains internal jokes between friends!**
+# **This fork is not serious or anything like that ... use the normal version**
+-> https://github.com/mrFavoslav/KeyDrop-Giveaway-Bot <-
+
 KeyDrop-BOT is a bot designed to interact with the **KeyDrop** platform, automate and perform tasks related to giveaways. It can automatically join giveaways based on the set interval. This project includes a **client-side JavaScript** script and a **server-side C#** application, which work together to perform the desired tasks.
 
 ## Features
@@ -30,69 +38,11 @@ KeyDrop-BOT/
 ├── README.md                       # Project readme (this file)
 ```
 
-## Getting Started
-
-### Script
-
-1. Download the latest `KeyDropBOT_client.js` from [releases](https://github.com/mrFavoslav/KeyDrop-BOT/releases).
-
-2. Install Tampermonkey:
-
-   ![Tampermonkey Image 1](https://api.favoslav.cz/v1/assets/keydropbot/monkey/1.png)
-
-3. Find Tampermonkey in extensions:
-
-   ![Tampermonkey Image 2](https://api.favoslav.cz/v1/assets/keydropbot/monkey/2.png)
-
-4. Pin Tampermonkey:
-
-   ![Tampermonkey Image 3](https://api.favoslav.cz/v1/assets/keydropbot/monkey/3.png)
-
-5. Click on the pinned extension and go to the dashboard:
-
-   ![Tampermonkey Image 4](https://api.favoslav.cz/v1/assets/keydropbot/monkey/4.png)
-
-6. Go to **Utilities**:
-
-   ![Tampermonkey Image 5](https://api.favoslav.cz/v1/assets/keydropbot/monkey/5.png)
-
-7. Import the downloaded `KeyDropBOT_client.js` file:
-
-   ![Tampermonkey Image 6](https://api.favoslav.cz/v1/assets/keydropbot/monkey/6.png)
-
-8. Install the script:
-
-   ![Tampermonkey Image 7](https://api.favoslav.cz/v1/assets/keydropbot/monkey/7.png)
-
-9. Then go to KeyDrop, click on the extension, and you should see the script. Activate it and refresh your page with F5.
-
-### App
-
-1. Download the latest `KeyDropBOT_server.exe` from [releases](https://github.com/mrFavoslav/KeyDrop-BOT/releases).
-
-2. Find the downloaded exe file and run it.
-
-   2.0 Why does this happen?
-   
-   - Windows Defender may block the application due to it being signed but not by a well-known authority. In this case, you can click on "More info" and then "Run anyway".
-
-   2.1. Click on the "More information" button:  
-   
-      ![App Image 1](https://api.favoslav.cz/v1/assets/keydropbot/app/1.png)
-
-   2.2. Click on the "Run Anyway" button:  
-   
-      ![App Image 2](https://api.favoslav.cz/v1/assets/keydropbot/app/2.png)
-
-5. How does the app work?:
-
-   ![App Image 1](https://api.favoslav.cz/v1/assets/keydropbot/app/3.png)
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support us
+## Support mrFavoslav
 
 1. Referral
 
@@ -105,7 +55,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
         </td>
         <td style="vertical-align: middle; padding-left: 20px;">
             <a href="https://key-drop.com/?code=FVSLV_" style="margin-left: 20px; line-height: 200px;">
-                Click here to visit KeyDrop with my referral code!
+                Click here to visit KeyDrop with mrFavoslav referral code!
             </a>
         </td>
       </tr>
