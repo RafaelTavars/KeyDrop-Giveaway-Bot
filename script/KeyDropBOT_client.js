@@ -11,6 +11,8 @@
 // Toggle this to true to bypass WebSocket requirement
 const BYPASS_WEBSOCKET = false;
 
+const SKIN_VALUE = 1.60;
+
 let socketConnected = false;
 
 const labelFlagsDefault = {
@@ -23,15 +25,18 @@ const labelFlagsDefault = {
 
 const woccDefault = 15000;
 const wccDefault = 30000;
+const skinvalueDefault = 1.6;
 
 if ((!localStorage.getItem('labels') || !localStorage.getItem('wocc') || !localStorage.getItem('wcc')) && !BYPASS_WEBSOCKET) {
     localStorage.setItem('labels', JSON.stringify(labelFlagsDefault));
     localStorage.setItem('wocc', woccDefault);
     localStorage.setItem('wcc', wccDefault);
+    localStorage.setItem('skinvalue', skinvalueDefault);
 } else if (BYPASS_WEBSOCKET) {
     localStorage.setItem('labels', JSON.stringify(labelFlagsDefault));
     localStorage.setItem('wocc', woccDefault);
     localStorage.setItem('wcc', wccDefault);
+    localStorage.setItem('skinvalue', skinvalueDefault);
 }
 
 async function setupWebSocket() {
@@ -80,6 +85,7 @@ async function setupWebSocket() {
                     ],
                     wo_captcha_cooldown: parseInt(localStorage.getItem('wocc')),
                     w_captcha_cooldown: parseInt(localStorage.getItem('wcc')),
+                    skin_value: parseFloat(localStorage.getItem('skinvalue')),
                 };
 
                 socket.send(JSON.stringify(responseData));
@@ -89,6 +95,7 @@ async function setupWebSocket() {
                 localStorage.setItem('labels', JSON.stringify(labelsObject));
                 localStorage.setItem('wocc', data.wo_captcha_cooldown);
                 localStorage.setItem('wcc', data.w_captcha_cooldown);
+                localStorage.setItem('skinvalue', data.skin_value);
             }
         } catch (error) {
             console.error('Error parsing WebSocket message:', error);
@@ -140,6 +147,7 @@ function findButtonsByLabelText(labelText) {
                 const button = parentDiv.querySelector(
                     'a[data-testid="btn-single-card-giveaway-join"]'
                 );
+
                 if (button) {
                     console.log(`Found button for category "${labelText}":`, button);
                     return button;
@@ -197,6 +205,14 @@ async function handleCaptcha(button) {
     });
 
     if (captchaDetected) {
+        // ToDO: add win checker
+        // https://www.myinstants.com/media/sounds/manoel-gomes-parabens.mp3
+        // https://www.myinstants.com/media/sounds/soundpad.mp3
+
+        // ToDO: Enable/Disable .. maybe
+        const audio = new Audio("https://www.myinstants.com/media/sounds/lula-vai-todo-mindo-se-fdr.mp3");
+        audio.play().catch(error => console.error("Audio Failed:", error));
+
         console.log("CAPTCHA detected. Waiting for bot to solve it...");
         await timeout(settings.wcc - 2000);
         if (button) button.click();
@@ -276,6 +292,36 @@ async function handlePage() {
         const button = document.querySelector(
             'button[data-testid="btn-giveaway-join-the-giveaway"]'
         );
+
+        const skinElement = document.querySelector('span.text-3xl.font-semibold.text-gold-500');
+        console.log(skinElement);
+        if (skinElement) {
+            const skinText = skinElement.textContent.trim();
+            const skinValue = parseFloat(skinText.replace('US$', '').replace(',', '.').trim());
+
+            if (!isNaN(skinValue) && skinValue <= parseFloat(localStorage.getItem('skinvalue'))) {
+                console.log('Bruh value!');
+
+                // Little Carl
+                const images = [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpDIGSjpWu3c4iyaUO3YP1RrcyrzvpDmjpbH-8wsHKdGec1ii42Cm2Dj_IMJ-lKW2qLNE&usqp=CAU",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMMCmhZtAnbrDqGfEZJnOBG3MDQckvKu1LoQ&s",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGw6Dhf2fg-A1NtYdYnX8NfeRi5lYYE665uQ&s",
+                    "https://i.pinimg.com/736x/88/9e/24/889e24c699ec4f0e9137c205564cb4ab.jpg",
+                    "https://pt.quizur.com/_image?href=https://img.quizur.com/f/img643fd528d03641.65113640.jpg?lastEdited=1681904948&w=600&h=600&f=webp",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLh3xK9nZC-i1r6QPuhGHi2YZVnTutTGQc_Q&s"
+                ];
+
+                document.querySelectorAll('img').forEach(img => {
+                    const randomImage = images[Math.floor(Math.random() * images.length)];
+                    img.src = randomImage;
+                    img.srcset = "";
+                });
+
+                window.location.replace(`${window.location.origin}/giveaways/list/`);
+                return;
+            }
+        }
 
         if (button && button.disabled) {
             console.log("Giveaway button disabled. Redirecting...");

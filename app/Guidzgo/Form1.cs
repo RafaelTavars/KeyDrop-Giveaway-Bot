@@ -1,13 +1,17 @@
-﻿using System;
+﻿using MaterialSkin.Controls;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Dynamic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
@@ -22,7 +26,7 @@ using static Guidzgo.FogginClient;
 
 namespace Guidzgo
 {
-	public partial class Form1 : Form
+	public partial class Form1 : MaterialForm
 	{
 		public Form1()
 		{
@@ -35,14 +39,17 @@ namespace Guidzgo
 				   (TextBox)groupBox1.Controls[c.Text.Substring(0, c.Name.Length - 1) + "T"])).ToArray();
 			t1 = textBox6;
 			t2 = textBox7;
-			logBoxSize = logBox.Height + 12;
-			LogsEnabled = false;
+			skinv = skinvalue_textbox;
+			logBoxSize = logBox.Height + 50;
+			LogsEnabled = true;
 			connLabel.Text = "";
 			logBox.MaxLength = 1024 * 8;
+
+			Width = 450; // Hide jokes
 		}
 
 		KeyValuePair<CheckBox,TextBox>[] LabelPairs;
-		TextBox t1, t2;
+		TextBox t1, t2, skinv;
 
 		
 
@@ -221,6 +228,9 @@ namespace Guidzgo
 		{
 			foreach (var ctl in tex(Controls).Except(new TextBox[] { logBox }).Concat(tex(groupBox1.Controls)))
 			{
+				if (ctl == skinvalue_textbox)
+					continue;
+
 				ctl.Text = ctl.Text.Trim();
 				ctl.Text = GetTime(ParseBox(ctl));
 			}
@@ -230,10 +240,13 @@ namespace Guidzgo
 		private JsonThingy GetJson()
 		{
 			FuckUpInputs();
+			float skinvalue;
+			float.TryParse(skinv.Text, out skinvalue);
 			var j = new JsonThingy()
 			{
 				wo_captcha_cooldown = ParseBox(t1),
 				w_captcha_cooldown = ParseBox(t2),
+				skin_value = skinvalue,
 				labels = (from x in LabelPairs where x.Key.Checked || useNewJson select (useNewJson ? (new object[] { x.Key.Text, ParseBox(x.Value),x.Key.Checked }) : (new object[] { x.Key.Text, ParseBox(x.Value) }))).ToArray()
 			};
 			return j;
@@ -266,7 +279,7 @@ namespace Guidzgo
 
 			// in case it does not get put into foreground
 			SetForegroundWindow(Handle);
-		}
+        }
 
 		public SemaphoreSlim uiLock = new SemaphoreSlim(1);
 		public async Task Lock(Action a)
@@ -370,6 +383,7 @@ namespace Guidzgo
 						}
 						t1.Text = GetTime(js.wo_captcha_cooldown);
 						t2.Text = GetTime(js.w_captcha_cooldown);
+						skinv.Text = js.skin_value.ToString();
 						foreach (var elm in toDisable)
 							elm.Enabled = true;
 					});
@@ -430,7 +444,51 @@ namespace Guidzgo
 		static byte[] GetDataMessage = Encoding.ASCII.GetBytes(getDataStr);
 		const int connectionTimeout = 5000;
 
-		private void pictureBox1_Click(object sender, EventArgs e)
+        private string ExtractEmbeddedResource(string resourceName)
+        {
+            string tempFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(resourceName));
+
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                if (stream == null) throw new Exception($"Resouce not found: {resourceName}");
+
+                using (FileStream fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+                {
+                    stream.CopyTo(fileStream);
+                }
+            }
+
+            return tempFile;
+        }
+
+        private string GetRandomVideoPath()
+		{
+			List<string> videos = new List<string>()
+            {
+                "Guidzgo.Resources.vid.mp4",
+                "Guidzgo.Resources.vid2.mp4",
+                "Guidzgo.Resources.vid3.mp4",
+                "Guidzgo.Resources.vid4.mp4",
+                "Guidzgo.Resources.vid5.mp4",
+                "Guidzgo.Resources.vid6.mp4",
+                "Guidzgo.Resources.vid7.mp4",
+                "Guidzgo.Resources.vid8.mp4",
+            };
+
+            Random random = new Random();
+			int index = random.Next(videos.Count);
+			return videos[index];
+		}
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            axWindowsMediaPlayer1.Visible = true;
+            axWindowsMediaPlayer1.URL = ExtractEmbeddedResource(GetRandomVideoPath());
+            axWindowsMediaPlayer1.uiMode = "none";
+            axWindowsMediaPlayer1.Ctlcontrols.play();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
 		{
 			LogsEnabled = !LogsEnabled;
 		}
@@ -510,6 +568,7 @@ namespace Guidzgo
 		// old format: "l":[["Label name",5000],["Another label",2000]] (aka array of len=2 arrays that contain string at index0 and whole nubmer at index1
 		public long wo_captcha_cooldown { get; set; }
 		public long w_captcha_cooldown { get; set; }
+		public float skin_value { get; set; }
 
 		public string Serialize() => JsonSerializer.Serialize(this, typeof(JsonThingy));
 	}
