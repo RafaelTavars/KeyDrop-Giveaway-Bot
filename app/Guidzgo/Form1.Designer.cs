@@ -51,11 +51,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            this.allowsounds = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
             // championC
@@ -269,7 +268,7 @@
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(414, 282);
+            this.logBox.Size = new System.Drawing.Size(417, 188);
             this.logBox.TabIndex = 17;
             this.logBox.Text = "Logs appear here\r\n";
             // 
@@ -310,25 +309,26 @@
             this.pictureBox2.Size = new System.Drawing.Size(159, 228);
             this.pictureBox2.TabIndex = 19;
             this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // axWindowsMediaPlayer1
+            // allowsounds
             // 
-            this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(219, 364);
-            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
-            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(207, 213);
-            this.axWindowsMediaPlayer1.TabIndex = 20;
-            this.axWindowsMediaPlayer1.Visible = false;
+            this.allowsounds.AutoSize = true;
+            this.allowsounds.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold);
+            this.allowsounds.Location = new System.Drawing.Point(298, 263);
+            this.allowsounds.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.allowsounds.Name = "allowsounds";
+            this.allowsounds.Size = new System.Drawing.Size(126, 23);
+            this.allowsounds.TabIndex = 21;
+            this.allowsounds.Text = "Allow Sounds";
+            this.allowsounds.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(438, 586);
-            this.Controls.Add(this.axWindowsMediaPlayer1);
+            this.ClientSize = new System.Drawing.Size(441, 492);
+            this.Controls.Add(this.allowsounds);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.logBox);
@@ -358,7 +358,6 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -387,7 +386,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox skinvalue_textbox;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
+        private System.Windows.Forms.CheckBox allowsounds;
     }
 }
 

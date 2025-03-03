@@ -40,7 +40,8 @@ namespace Guidzgo
 			t1 = textBox6;
 			t2 = textBox7;
 			skinv = skinvalue_textbox;
-			logBoxSize = logBox.Height + 50;
+			usesounds = allowsounds;
+            logBoxSize = logBox.Height + 12;
 			LogsEnabled = true;
 			connLabel.Text = "";
 			logBox.MaxLength = 1024 * 8;
@@ -50,8 +51,8 @@ namespace Guidzgo
 
 		KeyValuePair<CheckBox,TextBox>[] LabelPairs;
 		TextBox t1, t2, skinv;
+		CheckBox usesounds;
 
-		
 
 		private async void button1_Click(object sender, EventArgs e)
 		{
@@ -247,7 +248,8 @@ namespace Guidzgo
 				wo_captcha_cooldown = ParseBox(t1),
 				w_captcha_cooldown = ParseBox(t2),
 				skin_value = skinvalue,
-				labels = (from x in LabelPairs where x.Key.Checked || useNewJson select (useNewJson ? (new object[] { x.Key.Text, ParseBox(x.Value),x.Key.Checked }) : (new object[] { x.Key.Text, ParseBox(x.Value) }))).ToArray()
+                allow_sounds = (usesounds.Checked == true) ? 1 : 0,
+                labels = (from x in LabelPairs where x.Key.Checked || useNewJson select (useNewJson ? (new object[] { x.Key.Text, ParseBox(x.Value),x.Key.Checked }) : (new object[] { x.Key.Text, ParseBox(x.Value) }))).ToArray()
 			};
 			return j;
 		}
@@ -384,7 +386,8 @@ namespace Guidzgo
 						t1.Text = GetTime(js.wo_captcha_cooldown);
 						t2.Text = GetTime(js.w_captcha_cooldown);
 						skinv.Text = js.skin_value.ToString();
-						foreach (var elm in toDisable)
+                        usesounds.Checked = (js.allow_sounds == 1) ? true : false; // fuc*
+                        foreach (var elm in toDisable)
 							elm.Enabled = true;
 					});
 				}
@@ -443,50 +446,6 @@ namespace Guidzgo
 		const string getDataStr = "{\"action\":\"get_labels\"}";
 		static byte[] GetDataMessage = Encoding.ASCII.GetBytes(getDataStr);
 		const int connectionTimeout = 5000;
-
-        private string ExtractEmbeddedResource(string resourceName)
-        {
-            string tempFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(resourceName));
-
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-            {
-                if (stream == null) throw new Exception($"Resouce not found: {resourceName}");
-
-                using (FileStream fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
-                {
-                    stream.CopyTo(fileStream);
-                }
-            }
-
-            return tempFile;
-        }
-
-        private string GetRandomVideoPath()
-		{
-			List<string> videos = new List<string>()
-            {
-                "Guidzgo.Resources.vid.mp4",
-                "Guidzgo.Resources.vid2.mp4",
-                "Guidzgo.Resources.vid3.mp4",
-                "Guidzgo.Resources.vid4.mp4",
-                "Guidzgo.Resources.vid5.mp4",
-                "Guidzgo.Resources.vid6.mp4",
-                "Guidzgo.Resources.vid7.mp4",
-                "Guidzgo.Resources.vid8.mp4",
-            };
-
-            Random random = new Random();
-			int index = random.Next(videos.Count);
-			return videos[index];
-		}
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            axWindowsMediaPlayer1.Visible = true;
-            axWindowsMediaPlayer1.URL = ExtractEmbeddedResource(GetRandomVideoPath());
-            axWindowsMediaPlayer1.uiMode = "none";
-            axWindowsMediaPlayer1.Ctlcontrols.play();
-        }
 
         private void pictureBox1_Click(object sender, EventArgs e)
 		{
@@ -569,6 +528,7 @@ namespace Guidzgo
 		public long wo_captcha_cooldown { get; set; }
 		public long w_captcha_cooldown { get; set; }
 		public float skin_value { get; set; }
+		public int allow_sounds { get; set; }
 
 		public string Serialize() => JsonSerializer.Serialize(this, typeof(JsonThingy));
 	}

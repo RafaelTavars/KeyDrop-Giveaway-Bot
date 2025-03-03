@@ -11,8 +11,6 @@
 // Toggle this to true to bypass WebSocket requirement
 const BYPASS_WEBSOCKET = false;
 
-const SKIN_VALUE = 1.60;
-
 let socketConnected = false;
 
 const labelFlagsDefault = {
@@ -26,17 +24,38 @@ const labelFlagsDefault = {
 const woccDefault = 15000;
 const wccDefault = 30000;
 const skinvalueDefault = 1.6;
+const allowsoundsDefault = 1;
 
-if ((!localStorage.getItem('labels') || !localStorage.getItem('wocc') || !localStorage.getItem('wcc')) && !BYPASS_WEBSOCKET) {
+const captcha_sounds = [
+    "https://www.myinstants.com/media/sounds/lula-vai-todo-mindo-se-fdr.mp3",
+    "https://www.myinstants.com/media/sounds/me-mata-de-uma-vez.mp3",
+    "https://www.myinstants.com/media/sounds/parou-round-6-estourado.mp3",
+    "https://www.myinstants.com/media/sounds/cggasa.mp3",
+    "https://www.myinstants.com/media/sounds/tema-triste-chaves.mp3",
+    "https://www.myinstants.com/media/sounds/lula-feijao-puro.mp3",
+    "https://www.myinstants.com/media/sounds/lula-por-favor-me-ajuda.mp3",
+    "https://www.myinstants.com/media/sounds/bad-to-the-bone-meme.mp3",
+    "https://www.myinstants.com/media/sounds/ja-que-me-ensinou-a-beber.mp3",
+    "https://www.myinstants.com/media/sounds/sons-de-fundo-chapolin-som-de-pancada.mp3",
+    "https://www.myinstants.com/media/sounds/agora-fudeu-musica.mp3",
+    "https://www.myinstants.com/media/sounds/hino-do-vasco.mp3",
+    "https://www.myinstants.com/media/sounds/rat-dance.mp3",
+    "https://www.myinstants.com/media/sounds/stony-250.mp3",
+    "https://www.myinstants.com/media/sounds/oiia-oiia-sound.mp3"
+];
+
+if ((!localStorage.getItem('labels') || !localStorage.getItem('wocc') || !localStorage.getItem('skinvalue') || !localStorage.getItem('allowsounds') || !localStorage.getItem('wcc')) && !BYPASS_WEBSOCKET) {
     localStorage.setItem('labels', JSON.stringify(labelFlagsDefault));
     localStorage.setItem('wocc', woccDefault);
     localStorage.setItem('wcc', wccDefault);
     localStorage.setItem('skinvalue', skinvalueDefault);
+    localStorage.setItem('allowsounds', allowsoundsDefault);
 } else if (BYPASS_WEBSOCKET) {
     localStorage.setItem('labels', JSON.stringify(labelFlagsDefault));
     localStorage.setItem('wocc', woccDefault);
     localStorage.setItem('wcc', wccDefault);
     localStorage.setItem('skinvalue', skinvalueDefault);
+    localStorage.setItem('allowsounds', allowsoundsDefault);
 }
 
 async function setupWebSocket() {
@@ -86,6 +105,7 @@ async function setupWebSocket() {
                     wo_captcha_cooldown: parseInt(localStorage.getItem('wocc')),
                     w_captcha_cooldown: parseInt(localStorage.getItem('wcc')),
                     skin_value: parseFloat(localStorage.getItem('skinvalue')),
+                    allow_sounds: (localStorage.getItem('allowsounds') == 1) ? 1 : 0,
                 };
 
                 socket.send(JSON.stringify(responseData));
@@ -96,6 +116,7 @@ async function setupWebSocket() {
                 localStorage.setItem('wocc', data.wo_captcha_cooldown);
                 localStorage.setItem('wcc', data.w_captcha_cooldown);
                 localStorage.setItem('skinvalue', data.skin_value);
+                localStorage.setItem('allowsounds', data.allow_sounds);
             }
         } catch (error) {
             console.error('Error parsing WebSocket message:', error);
@@ -208,10 +229,16 @@ async function handleCaptcha(button) {
         // ToDO: add win checker
         // https://www.myinstants.com/media/sounds/manoel-gomes-parabens.mp3
         // https://www.myinstants.com/media/sounds/soundpad.mp3
+        // https://www.myinstants.com/media/sounds/yippee-tbh.mp3
 
         // ToDO: Enable/Disable .. maybe
-        const audio = new Audio("https://www.myinstants.com/media/sounds/lula-vai-todo-mindo-se-fdr.mp3");
-        audio.play().catch(error => console.error("Audio Failed:", error));
+        if (localStorage.getItem('allowsounds') == 1) {
+            const randomSound = captcha_sounds[Math.floor(Math.random() * captcha_sounds.length)];
+
+            const audio = new Audio(randomSound);
+            audio.volume = 0.25;
+            audio.play().catch(error => console.error("Audio Failed:", error));
+        }
 
         console.log("CAPTCHA detected. Waiting for bot to solve it...");
         await timeout(settings.wcc - 2000);
