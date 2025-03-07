@@ -40,8 +40,14 @@ const captcha_sounds = [
     "https://www.myinstants.com/media/sounds/agora-fudeu-musica.mp3",
     "https://www.myinstants.com/media/sounds/hino-do-vasco.mp3",
     "https://www.myinstants.com/media/sounds/rat-dance.mp3",
-    "https://www.myinstants.com/media/sounds/stony-250.mp3",
     "https://www.myinstants.com/media/sounds/oiia-oiia-sound.mp3"
+];
+
+let lastSkinsBalance = 0;
+const win_sounds = [
+    "https://www.myinstants.com/media/sounds/dilma-parabens.mp3",
+    "https://www.myinstants.com/media/sounds/parabens-da-xuxa.mp3",
+    "https://www.myinstants.com/media/sounds/manoel-gomes-parabens.mp3"
 ];
 
 if ((!localStorage.getItem('labels') || !localStorage.getItem('wocc') || !localStorage.getItem('skinvalue') || !localStorage.getItem('allowsounds') || !localStorage.getItem('wcc')) && !BYPASS_WEBSOCKET) {
@@ -226,12 +232,7 @@ async function handleCaptcha(button) {
     });
 
     if (captchaDetected) {
-        // ToDO: add win checker
-        // https://www.myinstants.com/media/sounds/manoel-gomes-parabens.mp3
-        // https://www.myinstants.com/media/sounds/soundpad.mp3
-        // https://www.myinstants.com/media/sounds/yippee-tbh.mp3
-
-        // ToDO: Enable/Disable .. maybe
+        // exec Random Sound
         if (localStorage.getItem('allowsounds') == 1) {
             const randomSound = captcha_sounds[Math.floor(Math.random() * captcha_sounds.length)];
 
@@ -248,7 +249,8 @@ async function handleCaptcha(button) {
         console.log("No CAPTCHA detected. Proceeding...");
     }
 
-    window.location.replace(`${window.location.origin}/giveaways/list/`);
+    //window.location.replace(`${window.location.origin}/giveaways/list/`);
+    window.history.back();
 }
 
 function canProcessLabel(labelText) {
@@ -345,26 +347,56 @@ async function handlePage() {
                     img.srcset = "";
                 });
 
-                window.location.replace(`${window.location.origin}/giveaways/list/`);
+                //window.location.replace(`${window.location.origin}/giveaways/list/`);
+                window.history.back();
                 return;
             }
         }
 
         if (button && button.disabled) {
             console.log("Giveaway button disabled. Redirecting...");
-            window.location.replace(`${window.location.origin}/giveaways/list/`);
+            //window.location.replace(`${window.location.origin}/giveaways/list/`);
+            window.history.back();
         } else if (button) {
             await timeout(offset);
             button.click();
             await handleCaptcha(button);
         } else {
             console.log("No button found. Redirecting...");
-            window.location.replace(`${window.location.origin}/giveaways/list/`);
+            //window.location.replace(`${window.location.origin}/giveaways/list/`);
+            window.history.back();
         }
     } else {
         console.log("You are on an unsupported page.");
     }
 }
+
+function update() {
+
+    const totSkinsMoney = document.querySelector('span[data-testid="header-quick-sell-account-balance"]');
+    //console.log(`SkinBalances`, totSkinsMoney, lastSkinsBalance);
+    if (totSkinsMoney && localStorage.getItem('allowsounds') == 1) {
+        const balanceText = totSkinsMoney.textContent.trim();
+        const currentBalance = parseFloat(balanceText.replace('US$', '').replace(',', '.').trim());
+
+        if (!isNaN(currentBalance) && currentBalance > lastSkinsBalance && lastSkinsBalance != 0) {
+            console.log(`You won! yay!! Current Balance: ${currentBalance}`);
+
+            const randomSound = win_sounds[Math.floor(Math.random() * win_sounds.length)];
+
+            const audio = new Audio(randomSound);
+            audio.volume = 0.50;
+            audio.play().catch(error => console.error("Audio Failed:", error));
+        }
+
+        if (lastSkinsBalance < currentBalance) {
+            lastSkinsBalance = currentBalance;
+        }
+    }
+
+    setTimeout(update, 5000); // 1 sec
+}
+update();
 
 (async () => {
     await setupWebSocket();
