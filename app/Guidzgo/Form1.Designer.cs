@@ -52,6 +52,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.allowsounds = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -268,7 +269,7 @@
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(417, 188);
+            this.logBox.Size = new System.Drawing.Size(437, 231);
             this.logBox.TabIndex = 17;
             this.logBox.Text = "Logs appear here\r\n";
             // 
@@ -322,12 +323,24 @@
             this.allowsounds.Text = "Allow Sounds";
             this.allowsounds.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold);
+            this.label4.Location = new System.Drawing.Point(304, 32);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(40, 19);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "v1.2";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(441, 492);
+            this.ClientSize = new System.Drawing.Size(461, 535);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.allowsounds);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
@@ -387,6 +400,7 @@
         private System.Windows.Forms.TextBox skinvalue_textbox;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.CheckBox allowsounds;
+        private System.Windows.Forms.Label label4;
     }
 }
 
