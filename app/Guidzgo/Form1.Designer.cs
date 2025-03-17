@@ -269,7 +269,7 @@
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(437, 231);
+            this.logBox.Size = new System.Drawing.Size(457, 274);
             this.logBox.TabIndex = 17;
             this.logBox.Text = "Logs appear here\r\n";
             // 
@@ -332,14 +332,14 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 19);
             this.label4.TabIndex = 22;
-            this.label4.Text = "v1.2";
+            this.label4.Text = "v1.3";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(461, 535);
+            this.ClientSize = new System.Drawing.Size(481, 578);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.allowsounds);
             this.Controls.Add(this.pictureBox2);

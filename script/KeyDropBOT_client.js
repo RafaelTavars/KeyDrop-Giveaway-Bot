@@ -26,6 +26,9 @@ const wccDefault = 30000;
 const skinvalueDefault = 1.6;
 const allowsoundsDefault = 1;
 
+let _refreshPageCount = 0;
+let refreshPageCount_Target = 5; // bruh
+
 const captcha_sounds = [
     "https://www.myinstants.com/media/sounds/lula-vai-todo-mindo-se-fdr.mp3",
     "https://www.myinstants.com/media/sounds/me-mata-de-uma-vez.mp3",
@@ -341,22 +344,32 @@ async function handlePage() {
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLh3xK9nZC-i1r6QPuhGHi2YZVnTutTGQc_Q&s"
                 ];
 
-                document.querySelectorAll('img').forEach(img => {
-                    const randomImage = images[Math.floor(Math.random() * images.length)];
-                    img.src = randomImage;
-                    img.srcset = "";
+                document.querySelectorAll('img').forEach((img, index) => {
+                    if (index >= 4) {
+                        const randomImage = images[Math.floor(Math.random() * images.length)];
+                        img.src = randomImage;
+                        img.srcset = "";
+                    }
                 });
 
                 //window.location.replace(`${window.location.origin}/giveaways/list/`);
-                window.history.back();
+                setTimeout(() => {window.history.back();}, 1500);
                 return;
             }
         }
 
+        // override old replace method (fix outdated giveways).
+        if (_refreshPageCount >= refreshPageCount_Target) {
+            window.location.replace(`${window.location.origin}/giveaways/list/`);
+            _refreshPageCount = 0;
+        }
+        _refreshPageCount++;
+
         if (button && button.disabled) {
             console.log("Giveaway button disabled. Redirecting...");
             //window.location.replace(`${window.location.origin}/giveaways/list/`);
-            window.history.back();
+
+            setTimeout(() => {window.history.back();}, 1500);
         } else if (button) {
             await timeout(offset);
             button.click();
@@ -364,7 +377,8 @@ async function handlePage() {
         } else {
             console.log("No button found. Redirecting...");
             //window.location.replace(`${window.location.origin}/giveaways/list/`);
-            window.history.back();
+
+            setTimeout(() => {window.history.back();}, 1500);
         }
     } else {
         console.log("You are on an unsupported page.");
