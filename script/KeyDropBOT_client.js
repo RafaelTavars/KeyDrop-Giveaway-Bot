@@ -50,7 +50,7 @@ let lastSkinsBalance = 0;
 const win_sounds = [
     "https://www.myinstants.com/media/sounds/dilma-parabens.mp3",
     "https://www.myinstants.com/media/sounds/parabens-da-xuxa.mp3",
-    "https://www.myinstants.com/media/sounds/manoel-gomes-parabens.mp3"
+    "https://www.myinstants.com/media/sounds/vou-resumir-com-duas-palavras_160k.mp3"
 ];
 
 if ((!localStorage.getItem('labels') || !localStorage.getItem('wocc') || !localStorage.getItem('skinvalue') || !localStorage.getItem('allowsounds') || !localStorage.getItem('wcc')) && !BYPASS_WEBSOCKET) {
@@ -325,13 +325,13 @@ async function handlePage() {
             'button[data-testid="btn-giveaway-join-the-giveaway"]'
         );
 
-        const skinElement = document.querySelector('span.text-3xl.font-semibold.text-gold-500');
+        const skinElement = document.querySelector('span.text-base.font-semibold.leading-none.text-white > span');
         console.log(skinElement);
         if (skinElement) {
             const skinText = skinElement.textContent.trim();
             const skinValue = parseFloat(skinText.replace('US$', '').replace(',', '.').trim());
 
-            if (!isNaN(skinValue) && skinValue <= parseFloat(localStorage.getItem('skinvalue'))) {
+            if (!isNaN(skinValue) && skinValue < parseFloat(localStorage.getItem('skinvalue'))) {
                 console.log('Bruh value!');
 
                 // Little Carl
@@ -393,7 +393,7 @@ function update() {
         const balanceText = totSkinsMoney.textContent.trim();
         const currentBalance = parseFloat(balanceText.replace('US$', '').replace(',', '.').trim());
 
-        if (!isNaN(currentBalance) && currentBalance > lastSkinsBalance && lastSkinsBalance != 0) {
+        if (!isNaN(currentBalance) && currentBalance > lastSkinsBalance + 0.3 && lastSkinsBalance != 0) {
             console.log(`You won! yay!! Current Balance: ${currentBalance}`);
 
             const randomSound = win_sounds[Math.floor(Math.random() * win_sounds.length)];
@@ -408,7 +408,7 @@ function update() {
         }
     }
 
-    setTimeout(update, 5000); // 1 sec
+    setTimeout(update, 20000); // 4 sec
 }
 update();
 
