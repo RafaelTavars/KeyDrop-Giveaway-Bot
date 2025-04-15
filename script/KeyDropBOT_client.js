@@ -325,11 +325,14 @@ async function handlePage() {
             'button[data-testid="btn-giveaway-join-the-giveaway"]'
         );
 
-        const skinElement = document.querySelector('span.text-base.font-semibold.leading-none.text-white > span');
+        const skinElement = document.querySelector('div.mt-2');
         console.log(skinElement);
         if (skinElement) {
-            const skinText = skinElement.textContent.trim();
-            const skinValue = parseFloat(skinText.replace('US$', '').replace(',', '.').trim());
+            const skinText = skinElement.textContent.replace(/\u00A0/g, ' ').trim(); // remove &nbsp;
+
+            const valueStr = skinText.split(' ')[0].replace(',', '.');
+            const skinValue = parseFloat(valueStr);
+            console.log("Skin Value:", skinValue);
 
             if (!isNaN(skinValue) && skinValue < parseFloat(localStorage.getItem('skinvalue'))) {
                 console.log('Bruh value!');
