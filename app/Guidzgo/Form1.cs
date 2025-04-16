@@ -39,7 +39,12 @@ namespace Guidzgo
 				   (TextBox)groupBox1.Controls[c.Text.Substring(0, c.Name.Length - 1) + "T"])).ToArray();
 			t1 = textBox6;
 			t2 = textBox7;
-			skinv = skinvalue_textbox;
+
+			skinv_amateur = skinvalue_txtbox_amateur;
+			skinv_contender = skinvalue_txtbox_contender;
+			skinv_challenger = skinvalue_txtbox_challenger;
+			skinv_champion = skinvalue_txtbox_champion;
+
 			usesounds = allowsounds;
             logBoxSize = logBox.Height + 12;
 			LogsEnabled = true;
@@ -50,7 +55,7 @@ namespace Guidzgo
 		}
 
 		KeyValuePair<CheckBox,TextBox>[] LabelPairs;
-		TextBox t1, t2, skinv;
+		TextBox t1, t2, skinv_amateur, skinv_contender, skinv_challenger, skinv_champion;
 		CheckBox usesounds;
 
 
@@ -229,7 +234,7 @@ namespace Guidzgo
 		{
 			foreach (var ctl in tex(Controls).Except(new TextBox[] { logBox }).Concat(tex(groupBox1.Controls)))
 			{
-				if (ctl == skinvalue_textbox)
+				if (ctl == skinvalue_txtbox_amateur || ctl == skinvalue_txtbox_contender || ctl == skinvalue_txtbox_challenger || ctl == skinvalue_txtbox_champion)
 					continue;
 
 				ctl.Text = ctl.Text.Trim();
@@ -241,13 +246,19 @@ namespace Guidzgo
 		private JsonThingy GetJson()
 		{
 			FuckUpInputs();
-			float skinvalue;
-			float.TryParse(skinv.Text, out skinvalue);
-			var j = new JsonThingy()
+			float skinvalue_amateur; float.TryParse(skinv_amateur.Text, out skinvalue_amateur);
+            float skinvalue_contender; float.TryParse(skinv_contender.Text, out skinvalue_contender);
+            float skinvalue_challenger; float.TryParse(skinv_challenger.Text, out skinvalue_challenger);
+            float skinvalue_champion; float.TryParse(skinv_champion.Text, out skinvalue_champion);
+
+            var j = new JsonThingy()
 			{
 				wo_captcha_cooldown = ParseBox(t1),
 				w_captcha_cooldown = ParseBox(t2),
-				skin_value = skinvalue,
+				skin_value_amateur = skinvalue_amateur,
+				skin_value_contender = skinvalue_contender,
+				skin_value_challenger = skinvalue_challenger,
+				skin_value_champion = skinvalue_champion,
                 allow_sounds = (usesounds.Checked == true) ? 1 : 0,
                 labels = (from x in LabelPairs where x.Key.Checked || useNewJson select (useNewJson ? (new object[] { x.Key.Text, ParseBox(x.Value),x.Key.Checked }) : (new object[] { x.Key.Text, ParseBox(x.Value) }))).ToArray()
 			};
@@ -385,7 +396,11 @@ namespace Guidzgo
 						}
 						t1.Text = GetTime(js.wo_captcha_cooldown);
 						t2.Text = GetTime(js.w_captcha_cooldown);
-						skinv.Text = js.skin_value.ToString();
+						skinv_amateur.Text = js.skin_value_amateur.ToString();
+						skinv_contender.Text = js.skin_value_contender.ToString();
+						skinv_challenger.Text = js.skin_value_challenger.ToString();
+						skinv_champion.Text = js.skin_value_champion.ToString();
+
                         usesounds.Checked = (js.allow_sounds == 1) ? true : false; // fuc*
                         foreach (var elm in toDisable)
 							elm.Enabled = true;
@@ -527,7 +542,10 @@ namespace Guidzgo
 		// old format: "l":[["Label name",5000],["Another label",2000]] (aka array of len=2 arrays that contain string at index0 and whole nubmer at index1
 		public long wo_captcha_cooldown { get; set; }
 		public long w_captcha_cooldown { get; set; }
-		public float skin_value { get; set; }
+		public float skin_value_amateur { get; set; }
+		public float skin_value_contender { get; set; }
+		public float skin_value_challenger { get; set; }
+		public float skin_value_champion { get; set; }
 		public int allow_sounds { get; set; }
 
 		public string Serialize() => JsonSerializer.Serialize(this, typeof(JsonThingy));

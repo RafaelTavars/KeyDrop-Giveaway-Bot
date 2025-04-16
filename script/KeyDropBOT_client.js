@@ -3,7 +3,7 @@
 // @namespace    https://www.favoslav.cz/
 // @version      1.0.2
 // @description  KeyDrop Giveaway Bot with Dynamic Label Updates and Frequency Checks
-// @author       Favoslav_ & Pr0Xy
+// @author       Favoslav_ & Pr0Xy | Contributor: Rafael Tavares
 // @include      *://*key*drop*/*
 // @grant        none
 // ==/UserScript==
@@ -16,14 +16,21 @@ let socketConnected = false;
 const labelFlagsDefault = {
     AMATEUR: [60000, false],
     CONTENDER: [300000, false],
-    LEGEND: [900000, false],
+    //LEGEND: [900000, false], // deprecated
     CHALLENGER: [3600000, false],
     CHAMPION: [21600000, false],
 };
 
+const skinValuesDefault = [
+    1.6, // AMATEUR
+    8.0, // CONTENDER
+    200.0, // CHALLENGER
+    1000.0, // CHAMPION
+];
+
 const woccDefault = 15000;
 const wccDefault = 30000;
-const skinvalueDefault = 1.6;
+//const skinvalueDefault = 1.6;
 const allowsoundsDefault = 1;
 
 let _refreshPageCount = 0;
@@ -53,17 +60,26 @@ const win_sounds = [
     "https://www.myinstants.com/media/sounds/vou-resumir-com-duas-palavras_160k.mp3"
 ];
 
-if ((!localStorage.getItem('labels') || !localStorage.getItem('wocc') || !localStorage.getItem('skinvalue') || !localStorage.getItem('allowsounds') || !localStorage.getItem('wcc')) && !BYPASS_WEBSOCKET) {
+// XXX i don't care .. it's working haha
+if ((!localStorage.getItem('labels') || !localStorage.getItem('wocc') || !localStorage.getItem('skinvalue_amateur') || localStorage.getItem('skinvalue_amateur') == "undefined"
+     || !localStorage.getItem('skinvalue_contender') || !localStorage.getItem('skinvalue_challenger') || !localStorage.getItem('skinvalue_champion')
+     || !localStorage.getItem('allowsounds') || !localStorage.getItem('wcc')) && !BYPASS_WEBSOCKET) {
     localStorage.setItem('labels', JSON.stringify(labelFlagsDefault));
     localStorage.setItem('wocc', woccDefault);
     localStorage.setItem('wcc', wccDefault);
-    localStorage.setItem('skinvalue', skinvalueDefault);
+    localStorage.setItem('skinvalue_amateur', skinValuesDefault[0]);
+    localStorage.setItem('skinvalue_contender', skinValuesDefault[1]);
+    localStorage.setItem('skinvalue_challenger', skinValuesDefault[2]);
+    localStorage.setItem('skinvalue_champion', skinValuesDefault[3]);
     localStorage.setItem('allowsounds', allowsoundsDefault);
 } else if (BYPASS_WEBSOCKET) {
     localStorage.setItem('labels', JSON.stringify(labelFlagsDefault));
     localStorage.setItem('wocc', woccDefault);
     localStorage.setItem('wcc', wccDefault);
-    localStorage.setItem('skinvalue', skinvalueDefault);
+    localStorage.setItem('skinvalue_amateur', skinValuesDefault[0]);
+    localStorage.setItem('skinvalue_contender', skinValuesDefault[1]);
+    localStorage.setItem('skinvalue_challenger', skinValuesDefault[2]);
+    localStorage.setItem('skinvalue_champion', skinValuesDefault[3]);
     localStorage.setItem('allowsounds', allowsoundsDefault);
 }
 
@@ -101,19 +117,21 @@ async function setupWebSocket() {
 
             if (data.action === 'get_labels') {
                 const labels = JSON.parse(localStorage.getItem('labels'));
-
+                console.log(labels);
                 const responseData = {
                     action: 'set_labels',
                     labels: [
                         ['AMATEUR', labels.AMATEUR[0], labels.AMATEUR[1]],
                         ['CONTENDER', labels.CONTENDER[0], labels.CONTENDER[1]],
                         ['CHAMPION', labels.CHAMPION[0], labels.CHAMPION[1]],
-                        ['LEGEND', labels.LEGEND[0], labels.LEGEND[1]],
                         ['CHALLENGER', labels.CHALLENGER[0], labels.CHALLENGER[1]]
                     ],
                     wo_captcha_cooldown: parseInt(localStorage.getItem('wocc')),
                     w_captcha_cooldown: parseInt(localStorage.getItem('wcc')),
-                    skin_value: parseFloat(localStorage.getItem('skinvalue')),
+                    skin_value_amateur: parseFloat(localStorage.getItem('skinvalue_amateur')),
+                    skin_value_contender: parseFloat(localStorage.getItem('skinvalue_contender')),
+                    skin_value_challenger: parseFloat(localStorage.getItem('skinvalue_challenger')),
+                    skin_value_champion: parseFloat(localStorage.getItem('skinvalue_champion')),
                     allow_sounds: (localStorage.getItem('allowsounds') == 1) ? 1 : 0,
                 };
 
@@ -124,7 +142,10 @@ async function setupWebSocket() {
                 localStorage.setItem('labels', JSON.stringify(labelsObject));
                 localStorage.setItem('wocc', data.wo_captcha_cooldown);
                 localStorage.setItem('wcc', data.w_captcha_cooldown);
-                localStorage.setItem('skinvalue', data.skin_value);
+                localStorage.setItem('skinvalue_amateur', data.skin_value_amateur);
+                localStorage.setItem('skinvalue_contender', data.skin_value_contender);
+                localStorage.setItem('skinvalue_challenger', data.skin_value_challenger);
+                localStorage.setItem('skinvalue_champion', data.skin_value_champion);
                 localStorage.setItem('allowsounds', data.allow_sounds);
             }
         } catch (error) {
@@ -334,8 +355,24 @@ async function handlePage() {
             const skinValue = parseFloat(valueStr);
             console.log("Skin Value:", skinValue);
 
-            if (!isNaN(skinValue) && skinValue < parseFloat(localStorage.getItem('skinvalue'))) {
-                console.log('Bruh value!');
+            // Get Giveway Type
+            let givewayType = "amateur";
+            const h2Element = document.querySelector('h2');
+            if (h2Element) {
+                const outerSpan = h2Element.querySelector('span');
+                if (outerSpan && outerSpan.firstChild) {
+                    givewayType = outerSpan.firstChild.textContent.trim();
+                    console.log("In Giveway:", givewayType);
+                }
+            }
+
+            const minValue = (givewayType == "amateur") ? parseFloat(localStorage.getItem('skinvalue_amateur')) :
+                             (givewayType == "contender") ? parseFloat(localStorage.getItem('skinvalue_contender')) :
+                             (givewayType == "challenger") ? parseFloat(localStorage.getItem('skinvalue_challenger')) :
+                             parseFloat(localStorage.getItem('skinvalue_champion'));
+
+            if (!isNaN(skinValue) && skinValue < minValue) {
+                console.log('Bruh value! min is:', minValue);
 
                 // Little Carl
                 const images = [

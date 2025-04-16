@@ -31,17 +31,20 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.championC = new System.Windows.Forms.CheckBox();
             this.challengerC = new System.Windows.Forms.CheckBox();
-            this.legendC = new System.Windows.Forms.CheckBox();
             this.contenderC = new System.Windows.Forms.CheckBox();
             this.amateurC = new System.Windows.Forms.CheckBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.skinvalue_txtbox_champion = new System.Windows.Forms.TextBox();
+            this.skinvalue_txtbox_challenger = new System.Windows.Forms.TextBox();
+            this.skinvalue_txtbox_contender = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.skinvalue_textbox = new System.Windows.Forms.TextBox();
+            this.skinvalue_txtbox_amateur = new System.Windows.Forms.TextBox();
             this.amateurT = new System.Windows.Forms.TextBox();
             this.contenderT = new System.Windows.Forms.TextBox();
-            this.legendT = new System.Windows.Forms.TextBox();
             this.challengerT = new System.Windows.Forms.TextBox();
             this.championT = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -54,6 +57,7 @@
             this.allowsounds = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -62,7 +66,7 @@
             // 
             this.championC.AutoSize = true;
             this.championC.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold);
-            this.championC.Location = new System.Drawing.Point(6, 19);
+            this.championC.Location = new System.Drawing.Point(6, 39);
             this.championC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.championC.Name = "championC";
             this.championC.Size = new System.Drawing.Size(111, 23);
@@ -74,7 +78,7 @@
             // 
             this.challengerC.AutoSize = true;
             this.challengerC.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold);
-            this.challengerC.Location = new System.Drawing.Point(6, 49);
+            this.challengerC.Location = new System.Drawing.Point(6, 69);
             this.challengerC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.challengerC.Name = "challengerC";
             this.challengerC.Size = new System.Drawing.Size(128, 23);
@@ -82,23 +86,11 @@
             this.challengerC.Text = "CHALLENGER";
             this.challengerC.UseVisualStyleBackColor = true;
             // 
-            // legendC
-            // 
-            this.legendC.AutoSize = true;
-            this.legendC.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold);
-            this.legendC.Location = new System.Drawing.Point(6, 79);
-            this.legendC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.legendC.Name = "legendC";
-            this.legendC.Size = new System.Drawing.Size(87, 23);
-            this.legendC.TabIndex = 7;
-            this.legendC.Text = "LEGEND";
-            this.legendC.UseVisualStyleBackColor = true;
-            // 
             // contenderC
             // 
             this.contenderC.AutoSize = true;
             this.contenderC.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold);
-            this.contenderC.Location = new System.Drawing.Point(6, 109);
+            this.contenderC.Location = new System.Drawing.Point(6, 129);
             this.contenderC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.contenderC.Name = "contenderC";
             this.contenderC.Size = new System.Drawing.Size(119, 23);
@@ -110,7 +102,7 @@
             // 
             this.amateurC.AutoSize = true;
             this.amateurC.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold);
-            this.amateurC.Location = new System.Drawing.Point(6, 139);
+            this.amateurC.Location = new System.Drawing.Point(6, 159);
             this.amateurC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.amateurC.Name = "amateurC";
             this.amateurC.Size = new System.Drawing.Size(103, 23);
@@ -138,90 +130,131 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.pictureBox3);
+            this.groupBox1.Controls.Add(this.skinvalue_txtbox_champion);
+            this.groupBox1.Controls.Add(this.skinvalue_txtbox_challenger);
+            this.groupBox1.Controls.Add(this.skinvalue_txtbox_contender);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.skinvalue_textbox);
+            this.groupBox1.Controls.Add(this.skinvalue_txtbox_amateur);
             this.groupBox1.Controls.Add(this.amateurT);
             this.groupBox1.Controls.Add(this.contenderT);
-            this.groupBox1.Controls.Add(this.legendT);
             this.groupBox1.Controls.Add(this.challengerT);
             this.groupBox1.Controls.Add(this.championT);
             this.groupBox1.Controls.Add(this.amateurC);
             this.groupBox1.Controls.Add(this.contenderC);
             this.groupBox1.Controls.Add(this.championC);
-            this.groupBox1.Controls.Add(this.legendC);
             this.groupBox1.Controls.Add(this.challengerC);
             this.groupBox1.Location = new System.Drawing.Point(12, 75);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox1.Size = new System.Drawing.Size(266, 211);
+            this.groupBox1.Size = new System.Drawing.Size(266, 193);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Labels";
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pictureBox3.Location = new System.Drawing.Point(6, 106);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(255, 10);
+            this.pictureBox3.TabIndex = 26;
+            this.pictureBox3.TabStop = false;
+            // 
+            // skinvalue_txtbox_champion
+            // 
+            this.skinvalue_txtbox_champion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.skinvalue_txtbox_champion.Location = new System.Drawing.Point(199, 37);
+            this.skinvalue_txtbox_champion.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.skinvalue_txtbox_champion.Name = "skinvalue_txtbox_champion";
+            this.skinvalue_txtbox_champion.Size = new System.Drawing.Size(62, 26);
+            this.skinvalue_txtbox_champion.TabIndex = 25;
+            // 
+            // skinvalue_txtbox_challenger
+            // 
+            this.skinvalue_txtbox_challenger.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.skinvalue_txtbox_challenger.Location = new System.Drawing.Point(199, 67);
+            this.skinvalue_txtbox_challenger.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.skinvalue_txtbox_challenger.Name = "skinvalue_txtbox_challenger";
+            this.skinvalue_txtbox_challenger.Size = new System.Drawing.Size(62, 26);
+            this.skinvalue_txtbox_challenger.TabIndex = 24;
+            // 
+            // skinvalue_txtbox_contender
+            // 
+            this.skinvalue_txtbox_contender.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.skinvalue_txtbox_contender.Location = new System.Drawing.Point(199, 127);
+            this.skinvalue_txtbox_contender.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.skinvalue_txtbox_contender.Name = "skinvalue_txtbox_contender";
+            this.skinvalue_txtbox_contender.Size = new System.Drawing.Size(62, 26);
+            this.skinvalue_txtbox_contender.TabIndex = 22;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(141, 20);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(46, 19);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Time";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(4, 183);
+            this.label3.Font = new System.Drawing.Font("Roboto", 9F, System.Drawing.FontStyle.Bold);
+            this.label3.Location = new System.Drawing.Point(198, 23);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(117, 19);
+            this.label3.Size = new System.Drawing.Size(63, 14);
             this.label3.TabIndex = 20;
-            this.label3.Text = "Min Skin Value";
+            this.label3.Text = "Skin Value";
             // 
-            // skinvalue_textbox
+            // skinvalue_txtbox_amateur
             // 
-            this.skinvalue_textbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.skinvalue_textbox.Location = new System.Drawing.Point(150, 179);
-            this.skinvalue_textbox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.skinvalue_textbox.Name = "skinvalue_textbox";
-            this.skinvalue_textbox.Size = new System.Drawing.Size(100, 26);
-            this.skinvalue_textbox.TabIndex = 15;
+            this.skinvalue_txtbox_amateur.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.skinvalue_txtbox_amateur.Location = new System.Drawing.Point(199, 157);
+            this.skinvalue_txtbox_amateur.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.skinvalue_txtbox_amateur.Name = "skinvalue_txtbox_amateur";
+            this.skinvalue_txtbox_amateur.Size = new System.Drawing.Size(62, 26);
+            this.skinvalue_txtbox_amateur.TabIndex = 15;
             // 
             // amateurT
             // 
             this.amateurT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.amateurT.Location = new System.Drawing.Point(150, 137);
+            this.amateurT.Location = new System.Drawing.Point(131, 157);
             this.amateurT.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.amateurT.Name = "amateurT";
-            this.amateurT.Size = new System.Drawing.Size(100, 26);
+            this.amateurT.Size = new System.Drawing.Size(63, 26);
             this.amateurT.TabIndex = 14;
             // 
             // contenderT
             // 
             this.contenderT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.contenderT.Location = new System.Drawing.Point(150, 107);
+            this.contenderT.Location = new System.Drawing.Point(131, 127);
             this.contenderT.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.contenderT.Name = "contenderT";
-            this.contenderT.Size = new System.Drawing.Size(100, 26);
+            this.contenderT.Size = new System.Drawing.Size(63, 26);
             this.contenderT.TabIndex = 13;
-            // 
-            // legendT
-            // 
-            this.legendT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.legendT.Location = new System.Drawing.Point(150, 77);
-            this.legendT.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.legendT.Name = "legendT";
-            this.legendT.Size = new System.Drawing.Size(100, 26);
-            this.legendT.TabIndex = 12;
             // 
             // challengerT
             // 
             this.challengerT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.challengerT.Location = new System.Drawing.Point(150, 47);
+            this.challengerT.Location = new System.Drawing.Point(131, 67);
             this.challengerT.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.challengerT.Name = "challengerT";
-            this.challengerT.Size = new System.Drawing.Size(100, 26);
+            this.challengerT.Size = new System.Drawing.Size(63, 26);
             this.challengerT.TabIndex = 11;
             // 
             // championT
             // 
             this.championT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.championT.Location = new System.Drawing.Point(150, 17);
+            this.championT.Location = new System.Drawing.Point(131, 37);
             this.championT.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.championT.Name = "championT";
-            this.championT.Size = new System.Drawing.Size(100, 26);
+            this.championT.Size = new System.Drawing.Size(63, 26);
             this.championT.TabIndex = 10;
             // 
             // label1
@@ -269,7 +302,7 @@
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(477, 317);
+            this.logBox.Size = new System.Drawing.Size(418, 226);
             this.logBox.TabIndex = 17;
             this.logBox.Text = "Logs appear here\r\n";
             // 
@@ -332,14 +365,14 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 19);
             this.label4.TabIndex = 22;
-            this.label4.Text = "v1.4";
+            this.label4.Text = "v1.5";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(501, 621);
+            this.ClientSize = new System.Drawing.Size(442, 524);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.allowsounds);
             this.Controls.Add(this.pictureBox2);
@@ -369,6 +402,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
@@ -379,7 +413,6 @@
 		#endregion
 		private System.Windows.Forms.CheckBox championC;
 		private System.Windows.Forms.CheckBox challengerC;
-		private System.Windows.Forms.CheckBox legendC;
 		private System.Windows.Forms.CheckBox contenderC;
 		private System.Windows.Forms.CheckBox amateurC;
 		private System.Windows.Forms.TextBox textBox6;
@@ -390,17 +423,21 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox amateurT;
 		private System.Windows.Forms.TextBox contenderT;
-		private System.Windows.Forms.TextBox legendT;
 		private System.Windows.Forms.TextBox challengerT;
 		private System.Windows.Forms.TextBox championT;
 		private System.Windows.Forms.Label connLabel;
 		private System.Windows.Forms.TextBox logBox;
 		private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox skinvalue_textbox;
+        private System.Windows.Forms.TextBox skinvalue_txtbox_amateur;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.CheckBox allowsounds;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox skinvalue_txtbox_contender;
+        private System.Windows.Forms.TextBox skinvalue_txtbox_challenger;
+        private System.Windows.Forms.TextBox skinvalue_txtbox_champion;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
 
